@@ -35,10 +35,11 @@ function copyDir(src, dest) {
 }
 
 if (!fs.existsSync(RESULTS) || fs.readdirSync(RESULTS).length === 0) {
-  console.warn('No allure-results found — skip report generation.');
-  process.exit(0);
+  console.error('No allure-results found — cannot generate Allure report.');
+  process.exit(1);
 }
 
+console.log(`Generating Allure report from ${RESULTS} ...`);
 const generate = spawnSync(
   process.execPath,
   [
@@ -49,11 +50,17 @@ const generate = spawnSync(
     '-o',
     LATEST,
   ],
-  { stdio: 'inherit', cwd: ROOT },
+  { stdio: 'inherit', cwd: ROOT, env: process.env },
 );
 
 if ((generate.status ?? 1) !== 0) {
+  console.error('allure generate failed with code', generate.status);
   process.exit(generate.status ?? 1);
+}
+
+if (!fs.existsSync(path.join(LATEST, 'index.html'))) {
+  console.error('Allure report was not created (index.html missing).');
+  process.exit(1);
 }
 
 const archiveDir = path.join(HISTORY, stamp());
