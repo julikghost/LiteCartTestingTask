@@ -15,7 +15,7 @@
 | 3 | Покрыть **все тест-кейсы** автотестами | ✅ TC1–TC4 + доп. успешный логин |
 | 4 | Показать **CSS** и **XPath** локаторы | ✅ |
 | 5 | Показать **регулярные выражения** | ✅ |
-| 6 | Выложить на **публичный GitHub** | ⬜ репозиторий |
+| 6 | Выложить на **публичный GitHub** | ✅ [LiteCartTestingTask](https://github.com/julikghost/LiteCartTestingTask) |
 | 7 | Использовать известные **паттерны** | ✅ POM, Component, Facade, Fixture, storageState |
 | 8 | Отчёт **Allure** (не обязательно) | ✅ |
 
