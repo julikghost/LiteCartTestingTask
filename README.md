@@ -196,12 +196,4 @@ npm run allure:open             # открыть отчёт
 Триггеры: push / PR в `main` \| `master`, ручной запуск.  
 Артефакты: Allure, Playwright report, при падении — traces/videos.
 
-## Демо на собеседовании
 
-1. Требования задания и таблица покрытия TC1–TC4  
-2. Слои: tests → app → pages/components → api  
-3. CSS / XPath / RegExp в `LoginFormComponent`  
-4. storageState: setup vs guest/auth  
-5. Запуск: `npm run test:headed` или `npm test`  
-6. Allure: `npm run allure:open`  
-7. CI: вкладка **Actions**  
