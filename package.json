@@ -1,0 +1,38 @@
+{
+  "name": "litecart-playwright-tests",
+  "version": "1.0.0",
+  "description": "LiteCart E2E tests with Playwright + TypeScript",
+  "scripts": {
+    "test": "node scripts/run-with-allure.js --project=chromium",
+    "test:ci": "node scripts/run-with-allure.js --project=chromium",
+    "test:cross": "node scripts/run-with-allure.js --project=firefox --project=webkit --project=edge",
+    "test:cross:ci": "node scripts/run-with-allure.js --project=firefox --project=webkit",
+    "test:all": "node scripts/run-with-allure.js --project=chromium --project=firefox --project=webkit --project=edge",
+    "typecheck": "tsc --noEmit",
+    "test:headed": "node scripts/run-with-allure.js --project=chromium --headed",
+    "test:ui": "npx playwright test --ui --project=chromium",
+    "test:auth": "node scripts/run-with-allure.js --project=chromium tests/auth",
+    "test:checkout": "node scripts/run-with-allure.js --project=chromium tests/checkout",
+    "test:browsers": "npx playwright install chromium firefox webkit",
+    "report": "npx playwright show-report",
+    "allure:generate": "node scripts/generate-allure-report.js",
+    "allure:open": "node scripts/run-allure.js open ./allure-report"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "e2e",
+    "litecart"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^25.0.3",
+    "allure-commandline": "^2.43.0",
+    "allure-js-commons": "^3.10.2",
+    "allure-playwright": "^3.10.2",
+    "dotenv": "^17.4.2",
+    "typescript": "^5.9.3"
+  }
+}
