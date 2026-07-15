@@ -107,8 +107,8 @@
 - **Доп. тест:** успешная авторизация (`successful-login.spec.ts`)
 - Проверки UI и API (корзина `ajax/cart.json`, логин/logout, очистка корзины)
 - Allure-отчёт с epic / feature / story / severity / steps
-- Кроссбраузер: Chromium, Firefox, WebKit, Edge
-- CI на GitHub Actions (Chromium → Firefox + WebKit)
+- Кроссбраузер локально: Chromium, Firefox, WebKit, Edge
+- CI на GitHub Actions (Chromium + Allure)
 
 ### Архитектура и паттерны
 
@@ -190,8 +190,8 @@ npm run allure:open             # открыть отчёт
 
 [`.github/workflows/e2e.yml`](.github/workflows/e2e.yml)
 
-1. **Chromium** — typecheck + тесты + Allure  
-2. **Firefox + WebKit** — после успешного Chromium  
+- **Chromium** — typecheck + тесты + Allure  
+- Кроссбраузер (`npm run test:cross`) — только локально  
 
 Триггеры: push / PR в `main` \| `master`, ручной запуск.  
 Артефакты: Allure, Playwright report, при падении — traces/videos.
