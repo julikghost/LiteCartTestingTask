@@ -194,6 +194,13 @@ npm run allure:open             # открыть отчёт
 - Кроссбраузер (`npm run test:cross`) — только локально  
 
 Триггеры: push / PR в `main` \| `master`, ручной запуск.  
-Артефакты: Allure, Playwright report, при падении — traces/videos.
+
+Артефакты:
+- `allure-report-chromium` — **single-file** `index.html` (можно открыть двойным кликом)
+- `allure-results-chromium` — сырые результаты (при необходимости: `allure generate`)
+- `playwright-report-chromium` — HTML Playwright
+- при падении — `test-results` (trace/video)
+
+> Обычный Allure-отчёт (папка) при открытии `index.html` из zip выглядит пустым — нужен сервер (`allure open`). В CI поэтому генерируется `--single-file`.
 
 

@@ -47,7 +47,6 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      # Отдельно от локального npm test: в CI надёжнее npx allure + JAVA_HOME от setup-java
       - name: Run E2E (Chromium)
         run: npx playwright test --project=chromium
 
@@ -57,10 +56,30 @@ jobs:
           set -euo pipefail
           java -version
           echo "JAVA_HOME=${JAVA_HOME}"
-          ls -la allure-results
-          npx allure generate ./allure-results --clean -o ./allure-report
+          echo "allure-results files: $(find allure-results -type f | wc -l)"
+          ls -la allure-results | head -n 30
+          # --single-file: отчёт открывается из артефакта без локального сервера
+          npx allure generate ./allure-results --clean --single-file -o ./allure-report
           test -f allure-report/index.html
-          echo "Allure report generated"
+          ls -lah allure-report/index.html
+
+      - name: Upload Allure report (single-file HTML)
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: allure-report-chromium
+          path: allure-report/index.html
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Upload Allure raw results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: allure-results-chromium
+          path: allure-results/
+          retention-days: 14
+          if-no-files-found: error
 
       - name: Upload Playwright report
         if: always()
@@ -70,15 +89,6 @@ jobs:
           path: playwright-report/
           retention-days: 14
           if-no-files-found: ignore
-
-      - name: Upload Allure report
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: allure-report-chromium
-          path: allure-report/
-          retention-days: 14
-          if-no-files-found: error
 
       - name: Upload test traces / videos
         if: failure()
