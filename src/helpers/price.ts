@@ -3,15 +3,34 @@
  * Regex usage is intentional for the assignment requirements.
  */
 export function parseMoney(value: string): number {
-  const match = value.replace(/\s/g, '').match(/-?\$?\s*(-?\d+(?:[.,]\d+)?)/);
+  // "$1,234.56" / "$1.234,56" / "$60" → number
+  const normalized = value.replace(/\s/g, '');
+  const match = normalized.match(/-?\$?\s*(-?[\d.,]+)/);
   if (!match) {
     throw new Error(`Unable to parse money from: "${value}"`);
   }
-  return Number(match[1].replace(',', '.'));
-}
 
-export function formatUsd(amount: number): string {
-  return `$${amount % 1 === 0 ? amount.toFixed(0) : amount.toFixed(2)}`;
+  let amount = match[1];
+  const hasDot = amount.includes('.');
+  const hasComma = amount.includes(',');
+
+  if (hasDot && hasComma) {
+    // Last separator is decimal: 1,234.56 or 1.234,56
+    if (amount.lastIndexOf(',') > amount.lastIndexOf('.')) {
+      amount = amount.replace(/\./g, '').replace(',', '.');
+    } else {
+      amount = amount.replace(/,/g, '');
+    }
+  } else if (hasComma) {
+    // LiteCart uses "60,00" as decimal comma for some locales
+    amount = amount.replace(',', '.');
+  }
+
+  const parsed = Number(amount);
+  if (Number.isNaN(parsed)) {
+    throw new Error(`Unable to parse money from: "${value}"`);
+  }
+  return parsed;
 }
 
 export function formatUsdFixed(amount: number): string {

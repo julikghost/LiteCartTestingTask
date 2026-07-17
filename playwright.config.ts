@@ -4,6 +4,11 @@ import { AUTH_STORAGE_PATH } from './src/auth/storage';
 
 dotenv.config();
 
+const BASE_URL = (process.env.BASE_URL?.trim() || 'https://litecart.stqa.ru/en/').replace(
+  /\/?$/,
+  '/',
+);
+
 /**
  * Playwright config for LiteCart E2E suite.
  *
@@ -11,6 +16,8 @@ dotenv.config();
  * - setup → логин один раз, пишет .auth/user.json
  * - browser projects зависят от setup и подключают storageState
  * - auth/guest тесты сбрасывают сессию через test.use(EMPTY_STORAGE_STATE)
+ *
+ * Edge: только при WITH_EDGE=1 (нужен установленный msedge).
  */
 const browserProjects: Project[] = [
   {
@@ -40,7 +47,10 @@ const browserProjects: Project[] = [
       storageState: AUTH_STORAGE_PATH,
     },
   },
-  {
+];
+
+if (process.env.WITH_EDGE === '1' || process.env.WITH_EDGE === 'true') {
+  browserProjects.push({
     name: 'edge',
     dependencies: ['setup'],
     testIgnore: /auth\.setup\.ts/,
@@ -49,8 +59,8 @@ const browserProjects: Project[] = [
       channel: 'msedge',
       storageState: AUTH_STORAGE_PATH,
     },
-  },
-];
+  });
+}
 
 export default defineConfig({
   testDir: './tests',
@@ -74,13 +84,13 @@ export default defineConfig({
         environmentInfo: {
           E2E_NODE_VERSION: process.version,
           E2E_OS: process.platform,
-          BASE_URL: 'https://litecart.stqa.ru/en/',
+          BASE_URL,
         },
       },
     ],
   ],
   use: {
-    baseURL: 'https://litecart.stqa.ru/en/',
+    baseURL: BASE_URL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

@@ -5,9 +5,8 @@
   "scripts": {
     "test": "node scripts/run-with-allure.js --project=chromium",
     "test:ci": "node scripts/run-with-allure.js --project=chromium",
-    "test:cross": "node scripts/run-with-allure.js --project=firefox --project=webkit --project=edge",
-    "test:cross:ci": "node scripts/run-with-allure.js --project=firefox --project=webkit",
-    "test:all": "node scripts/run-with-allure.js --project=chromium --project=firefox --project=webkit --project=edge",
+    "test:cross": "node scripts/run-with-allure.js --project=firefox --project=webkit",
+    "test:all": "node scripts/run-with-allure.js --project=chromium --project=firefox --project=webkit",
     "typecheck": "tsc --noEmit",
     "test:headed": "node scripts/run-with-allure.js --project=chromium --headed",
     "test:ui": "npx playwright test --ui --project=chromium",

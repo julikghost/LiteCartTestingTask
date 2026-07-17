@@ -133,7 +133,7 @@ tests  →  LiteCartApp (facade)  →  pages  →  components  →  BasePage
 
 ### Инфраструктура
 
-- Креды в `.env` (шаблон `.env.example`)
+- Креды и `BASE_URL` в `.env` (шаблон `.env.example`)
 - Path aliases: `@app`, `@pages`, `@components`, `@api`, …
 - Автогенерация Allure после прогона + архив в `allure-history/`
 - CI: typecheck, прогон, артефакты отчётов
@@ -178,13 +178,16 @@ npm run allure:open             # открыть отчёт
 | Команда | Описание |
 |---|---|
 | `npm test` | Основной прогон (Chromium) + Allure |
-| `npm run test:cross` | Firefox + WebKit + Edge |
-| `npm run test:all` | Все браузеры |
+| `npm run test:cross` | Firefox + WebKit |
+| `npm run test:all` | Chromium + Firefox + WebKit |
 | `npm run test:headed` | Chromium headed |
 | `npm run test:auth` / `test:checkout` | По фичам |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run allure:open` | Открыть Allure |
 | `npm run report` | Playwright HTML-отчёт |
+
+> **Edge:** по умолчанию выключен (иначе 5 красных без установленного браузера).  
+> Включение: `WITH_EDGE=1 npx playwright test --project=edge` (нужен `npx playwright install msedge`).
 
 ## CI
 

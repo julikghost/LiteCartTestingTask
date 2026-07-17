@@ -34,10 +34,43 @@ function copyDir(src, dest) {
   }
 }
 
+/** Put previous report history into allure-results so Trend is not empty. */
+function restoreHistoryIntoResults() {
+  const dest = path.join(RESULTS, 'history');
+  const fromLatest = path.join(LATEST, 'history');
+  if (fs.existsSync(fromLatest)) {
+    copyDir(fromLatest, dest);
+    console.log('Restored Allure history from allure-report/history');
+    return;
+  }
+
+  if (!fs.existsSync(HISTORY)) {
+    return;
+  }
+
+  const archives = fs
+    .readdirSync(HISTORY, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+    .sort()
+    .reverse();
+
+  for (const name of archives) {
+    const hist = path.join(HISTORY, name, 'history');
+    if (fs.existsSync(hist)) {
+      copyDir(hist, dest);
+      console.log(`Restored Allure history from allure-history/${name}/history`);
+      return;
+    }
+  }
+}
+
 if (!fs.existsSync(RESULTS) || fs.readdirSync(RESULTS).length === 0) {
   console.error('No allure-results found — cannot generate Allure report.');
   process.exit(1);
 }
+
+restoreHistoryIntoResults();
 
 console.log(`Generating Allure report from ${RESULTS} ...`);
 const generate = spawnSync(

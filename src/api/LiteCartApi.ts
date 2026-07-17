@@ -7,6 +7,10 @@ export type CartJson = {
   formatted_value: string;
 };
 
+function baseUrl(): string {
+  return (process.env.BASE_URL?.trim() || 'https://litecart.stqa.ru/en/').replace(/\/?$/, '/');
+}
+
 /**
  * LiteCart HTTP/AJAX API client.
  * Uses Playwright APIRequestContext (shares cookies with browser via page.request).
@@ -43,7 +47,7 @@ export class LiteCartApi {
     const response = await this.request.post('./login', {
       form: {
         token,
-        redirect_url: 'https://litecart.stqa.ru/en/',
+        redirect_url: baseUrl(),
         email,
         password,
         login: 'Login',
