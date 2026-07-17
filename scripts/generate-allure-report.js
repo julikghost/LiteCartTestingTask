@@ -34,7 +34,6 @@ function copyDir(src, dest) {
   }
 }
 
-/** Put previous report history into allure-results so Trend is not empty. */
 function restoreHistoryIntoResults() {
   const dest = path.join(RESULTS, 'history');
   const fromLatest = path.join(LATEST, 'history');
@@ -75,14 +74,7 @@ restoreHistoryIntoResults();
 console.log(`Generating Allure report from ${RESULTS} ...`);
 const generate = spawnSync(
   process.execPath,
-  [
-    path.join(__dirname, 'run-allure.js'),
-    'generate',
-    RESULTS,
-    '--clean',
-    '-o',
-    LATEST,
-  ],
+  [path.join(__dirname, 'run-allure.js'), 'generate', RESULTS, '--clean', '-o', LATEST],
   { stdio: 'inherit', cwd: ROOT, env: process.env },
 );
 

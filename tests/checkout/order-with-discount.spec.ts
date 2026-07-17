@@ -5,6 +5,7 @@ import { test } from '@fixtures/base.fixture';
 
 test.describe('TC2 — Order one product with discount', () => {
   test.beforeEach(async () => {
+    await allure.allureId('2');
     await allure.epic('LiteCart E2E');
     await allure.feature('Checkout');
     await allure.story('Order with discount');
@@ -12,12 +13,11 @@ test.describe('TC2 — Order one product with discount', () => {
     await allure.tag('UI');
   });
 
-  test('login, add 2 Yellow Duck (sale), verify discounted total and confirm @allure.id=2', async ({ app }) => {
+  test('login, add 2 Yellow Duck (sale), verify discounted total and confirm', async ({ app }) => {
     const product = products.withDiscount;
     const qty = quantities.withDiscount;
     const total = product.campaignPrice * qty;
 
-    // Сессия из storageState (auth.setup.ts)
     await app.prepareLoggedInEmptyCart();
     await app.selectAndAddProduct(product, qty, { size: product.size });
     await app.verifyCart(qty, total);

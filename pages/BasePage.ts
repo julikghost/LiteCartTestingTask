@@ -1,16 +1,11 @@
 import { Locator, Page } from '@playwright/test';
 
-/**
- * Base Page Object — общий page + cookie banner.
- * Все страницы наследуют BasePage (классический POM).
- */
 export abstract class BasePage {
   readonly page: Page;
   readonly cookieAcceptButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    // CSS
     this.cookieAcceptButton = page.locator('button:has-text("OK")');
   }
 

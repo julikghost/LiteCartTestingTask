@@ -11,10 +11,6 @@ type ProductRef = {
   size?: string;
 };
 
-/**
- * Application Facade (слой над Page Objects + API).
- * Тесты вызывают бизнес-шаги, а не низкоуровневые клики.
- */
 export class LiteCartApp {
   readonly home: HomePage;
   readonly product: ProductPage;
@@ -30,10 +26,6 @@ export class LiteCartApp {
     this.api = new LiteCartApi(page.request);
   }
 
-  /**
-   * Сессия уже из storageState (auth.setup.ts).
-   * Только очищаем корзину и проверяем, что пользователь залогинен.
-   */
   async prepareLoggedInEmptyCart(): Promise<void> {
     await allure.step('Prepare empty cart for logged-in storageState', async () => {
       await this.home.open();
@@ -45,7 +37,6 @@ export class LiteCartApp {
     });
   }
 
-  /** API: гостевая сессия + пустая корзина. */
   async prepareGuestEmptyCart(): Promise<void> {
     await allure.step('Prepare guest session with empty cart', async () => {
       await this.home.open();
@@ -71,7 +62,6 @@ export class LiteCartApp {
     });
   }
 
-  /** UI виджет + API cart.json. */
   async verifyCart(quantity: number, total: number): Promise<void> {
     await allure.step(`Verify cart: ${quantity} item(s), total $${total}`, async () => {
       await this.api.expectCart(quantity, total);
@@ -97,7 +87,6 @@ export class LiteCartApp {
     });
   }
 
-  /** Успешный логин через UI + проверка блока Account. */
   async loginWithValidCredentials(email: string, password: string): Promise<void> {
     await allure.step('Log in with valid credentials (UI)', async () => {
       await this.home.open();

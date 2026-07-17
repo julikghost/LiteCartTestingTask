@@ -1,15 +1,9 @@
 import { test as base } from '@playwright/test';
 import { LiteCartApi } from '@api/LiteCartApi';
 import { LiteCartApp } from '@app/LiteCartApp';
-import {
-  CheckoutPage,
-  HomePage,
-  OrderSuccessPage,
-  ProductPage,
-} from '@pages';
+import { CheckoutPage, HomePage, OrderSuccessPage, ProductPage } from '@pages';
 
 type Fixtures = {
-  /** Главная точка входа в POM: бизнес-шаги поверх Page Objects + API. */
   app: LiteCartApp;
   homePage: HomePage;
   productPage: ProductPage;
@@ -18,11 +12,6 @@ type Fixtures = {
   api: LiteCartApi;
 };
 
-/**
- * Fixtures:
- * - `app` — facade (рекомендуется в тестах)
- * - отдельные PO / api — если нужен точечный доступ
- */
 export const test = base.extend<Fixtures>({
   app: async ({ page }, use) => {
     await use(new LiteCartApp(page));

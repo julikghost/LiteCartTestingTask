@@ -8,6 +8,10 @@
     "test:cross": "node scripts/run-with-allure.js --project=firefox --project=webkit",
     "test:all": "node scripts/run-with-allure.js --project=chromium --project=firefox --project=webkit",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test:headed": "node scripts/run-with-allure.js --project=chromium --headed",
     "test:ui": "npx playwright test --ui --project=chromium",
     "test:auth": "node scripts/run-with-allure.js --project=chromium tests/auth",
@@ -23,15 +27,22 @@
     "e2e",
     "litecart"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Yulia Klepusevich",
+  "license": "UNLICENSED",
+  "private": true,
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
     "@types/node": "^25.0.3",
     "allure-commandline": "^2.43.0",
     "allure-js-commons": "^3.10.2",
     "allure-playwright": "^3.10.2",
     "dotenv": "^17.4.2",
-    "typescript": "^5.9.3"
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.10.5",
+    "prettier": "^3.9.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.64.0"
   }
 }

@@ -1,10 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { cartWidgetPattern, parseMoney } from '@helpers/price';
 
-/**
- * Component Object — шапка с виджетом корзины.
- * Вынесен из страниц, чтобы не дублировать локаторы.
- */
 export class HeaderComponent {
   readonly root: Locator;
   readonly quantity: Locator;
@@ -12,7 +8,6 @@ export class HeaderComponent {
   readonly checkoutLink: Locator;
 
   constructor(private readonly page: Page) {
-    // CSS
     this.root = page.locator('#cart');
     this.quantity = page.locator('#cart .quantity');
     this.formattedValue = page.locator('#cart .formatted_value');

@@ -4,11 +4,11 @@ import { EMPTY_STORAGE_STATE } from '@auth/storage';
 import { products } from '@data/test-data';
 import { test } from '@fixtures/base.fixture';
 
-// Гостевой сценарий — без cookies залогиненного пользователя
 test.use({ storageState: EMPTY_STORAGE_STATE });
 
 test.describe('TC3 — Add products without login', () => {
   test.beforeEach(async () => {
+    await allure.allureId('3');
     await allure.epic('LiteCart E2E');
     await allure.feature('Checkout');
     await allure.story('Guest cart and Recently Viewed');
@@ -16,7 +16,7 @@ test.describe('TC3 — Add products without login', () => {
     await allure.tag('UI');
   });
 
-  test('add two products as guest, empty customer data, Recently Viewed @allure.id=3', async ({ app }) => {
+  test('add two products as guest, empty customer data, Recently Viewed', async ({ app }) => {
     const first = products.withoutDiscount;
     const second = products.secondGuestProduct;
     const total = first.unitPrice + second.unitPrice;

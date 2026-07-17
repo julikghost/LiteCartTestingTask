@@ -2,16 +2,12 @@ import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { orderSuccessPattern } from '@helpers/price';
 
-/** Order Success Page Object. */
 export class OrderSuccessPage extends BasePage {
   readonly successMessage: Locator;
 
   constructor(page: Page) {
     super(page);
-    // XPath
-    this.successMessage = page.locator(
-      '//*[contains(., "Your order is successfully completed")]',
-    );
+    this.successMessage = page.locator('//*[contains(., "Your order is successfully completed")]');
   }
 
   async expectOrderCreated(): Promise<void> {

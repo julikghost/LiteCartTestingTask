@@ -18,7 +18,6 @@ const report = spawnSync(process.execPath, [path.join(__dirname, 'generate-allur
 
 if ((report.status ?? 1) !== 0) {
   console.error('Allure report generation failed.');
-  // Prefer surfacing Allure failure in CI so missing artifacts are not silent
   if (process.env.CI === 'true') {
     process.exit(report.status ?? 1);
   }

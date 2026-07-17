@@ -2,9 +2,6 @@ import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { formatUsdFixed, parseMoney } from '@helpers/price';
 
-/**
- * Checkout Page Object — корзина, customer details, confirm order.
- */
 export class CheckoutPage extends BasePage {
   readonly cartBox: Locator;
   readonly customerBox: Locator;
@@ -17,7 +14,6 @@ export class CheckoutPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    // CSS
     this.cartBox = page.locator('#box-checkout-cart');
     this.customerBox = page.locator('#box-checkout-customer');
     this.summaryBox = page.locator('#box-checkout-summary');
@@ -25,7 +21,6 @@ export class CheckoutPage extends BasePage {
     this.cartItems = page.locator('#box-checkout-cart li.item');
     this.emptyCartMessage = page.getByText(/There are no items in your cart/i);
 
-    // XPath
     this.removeItemButton = page.locator(
       '//div[@id="box-checkout-cart"]//button[@name="remove_cart_item"]',
     );
@@ -91,7 +86,6 @@ export class CheckoutPage extends BasePage {
     await this.page.waitForURL(/order_success/, { timeout: 20_000 });
   }
 
-  /** Бизнес-метод: проверить строку + итого. */
   async expectCartContents(
     items: Array<{ name: string; quantity: number; unitPrice: number }>,
     paymentDue: number,

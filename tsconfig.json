@@ -10,17 +10,28 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@pages": ["src/pages/index.ts"],
-      "@pages/*": ["src/pages/*"],
-      "@components": ["src/components/index.ts"],
-      "@components/*": ["src/components/*"],
-      "@helpers/*": ["src/helpers/*"],
-      "@data/*": ["src/data/*"],
-      "@fixtures/*": ["src/fixtures/*"],
-      "@api/*": ["src/api/*"],
-      "@app/*": ["src/app/*"],
-      "@auth/*": ["src/auth/*"]
+      "@pages": ["pages/index.ts"],
+      "@pages/*": ["pages/*"],
+      "@components": ["components/index.ts"],
+      "@components/*": ["components/*"],
+      "@helpers/*": ["helpers/*"],
+      "@data/*": ["data/*"],
+      "@fixtures/*": ["fixtures/*"],
+      "@api/*": ["api/*"],
+      "@app/*": ["app/*"],
+      "@auth/*": ["auth/*"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "playwright.config.ts"]
+  "include": [
+    "api/**/*.ts",
+    "app/**/*.ts",
+    "auth/**/*.ts",
+    "components/**/*.ts",
+    "data/**/*.ts",
+    "fixtures/**/*.ts",
+    "helpers/**/*.ts",
+    "pages/**/*.ts",
+    "tests/**/*.ts",
+    "playwright.config.ts"
+  ]
 }

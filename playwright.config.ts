@@ -1,24 +1,14 @@
 import { defineConfig, devices, Project } from '@playwright/test';
 import dotenv from 'dotenv';
-import { AUTH_STORAGE_PATH } from './src/auth/storage';
+import { AUTH_STORAGE_PATH } from './auth/storage';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const BASE_URL = (process.env.BASE_URL?.trim() || 'https://litecart.stqa.ru/en/').replace(
   /\/?$/,
   '/',
 );
 
-/**
- * Playwright config for LiteCart E2E suite.
- *
- * storageState:
- * - setup → логин один раз, пишет .auth/user.json
- * - browser projects зависят от setup и подключают storageState
- * - auth/guest тесты сбрасывают сессию через test.use(EMPTY_STORAGE_STATE)
- *
- * Edge: только при WITH_EDGE=1 (нужен установленный msedge).
- */
 const browserProjects: Project[] = [
   {
     name: 'chromium',
@@ -67,7 +57,6 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  // workers: 1 — общий демо-аккаунт/корзина; параллель ломает TC1/TC2
   workers: 1,
   timeout: 60_000,
   expect: {
@@ -98,10 +87,10 @@ export default defineConfig({
     navigationTimeout: 30_000,
   },
   projects: [
+    ...browserProjects,
     {
       name: 'setup',
       testMatch: /auth\.setup\.ts/,
     },
-    ...browserProjects,
   ],
 });

@@ -1,10 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { loggedInPattern, wrongCredentialsPattern } from '@helpers/price';
 
-/**
- * Component Object — форма логина / блок аккаунта.
- * CSS + XPath + RegExp (требование задания).
- */
 export class LoginFormComponent {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
@@ -15,14 +11,12 @@ export class LoginFormComponent {
   readonly errorNotice: Locator;
 
   constructor(private readonly page: Page) {
-    // CSS
     this.emailInput = page.locator('#box-account-login input[name="email"]');
     this.passwordInput = page.locator('#box-account-login input[name="password"]');
     this.loginButton = page.locator('#box-account-login button[name="login"]');
     this.accountBox = page.locator('#box-account');
     this.notices = page.locator('#notices');
 
-    // XPath
     this.logoutLink = page.locator('//div[@id="box-account"]//a[contains(@href, "logout")]');
     this.errorNotice = page.locator(
       '//div[@id="notices"]//div[contains(@class, "notice") and contains(@class, "errors")]',
@@ -61,10 +55,16 @@ export class LoginFormComponent {
     await expect(this.errorNotice).toBeVisible();
     await expect(this.errorNotice).toContainText(wrongCredentialsPattern);
 
-    const backgroundColor = await this.errorNotice.evaluate(
-      (el) => getComputedStyle(el).backgroundColor,
-    );
-    // Красная подсветка ошибки (RegExp по rgb)
-    expect(backgroundColor).toMatch(/rgb\(\s*255\s*,\s*20[0-9]\s*,\s*20[0-9]\s*\)/);
+    const { r, g, b } = await this.errorNotice.evaluate((el) => {
+      const match = getComputedStyle(el).backgroundColor.match(
+        /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/,
+      );
+      if (!match) {
+        throw new Error(`Unexpected backgroundColor: ${getComputedStyle(el).backgroundColor}`);
+      }
+      return { r: Number(match[1]), g: Number(match[2]), b: Number(match[3]) };
+    });
+    expect(r).toBeGreaterThan(g);
+    expect(r).toBeGreaterThan(b);
   }
 }

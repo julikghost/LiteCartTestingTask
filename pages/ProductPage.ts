@@ -2,9 +2,6 @@ import { Locator, Page, expect } from '@playwright/test';
 import { HeaderComponent } from '@components';
 import { BasePage } from './BasePage';
 
-/**
- * Product Page Object — карточка товара, qty, options, Add to Cart.
- */
 export class ProductPage extends BasePage {
   readonly header: HeaderComponent;
   readonly title: Locator;
@@ -18,14 +15,12 @@ export class ProductPage extends BasePage {
     super(page);
     this.header = new HeaderComponent(page);
 
-    // CSS
     this.title = page.locator('#box-product h1.title');
     this.quantityInput = page.locator('form[name="buy_now_form"] input[name="quantity"]');
     this.addToCartButton = page.locator('button[name="add_cart_product"]');
     this.regularPrice = page.locator('#box-product .regular-price');
     this.campaignPrice = page.locator('#box-product .campaign-price');
 
-    // XPath
     this.sizeSelect = page.locator('//form[@name="buy_now_form"]//select[contains(@name, "Size")]');
   }
 
@@ -57,7 +52,6 @@ export class ProductPage extends BasePage {
     });
   }
 
-  /** Бизнес-метод: открыть товар → убедиться → добавить в корзину. */
   async selectAndAdd(
     productPath: string,
     productName: string,

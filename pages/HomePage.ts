@@ -1,15 +1,7 @@
 import { Page } from '@playwright/test';
-import {
-  HeaderComponent,
-  LoginFormComponent,
-  RecentlyViewedComponent,
-} from '@components';
+import { HeaderComponent, LoginFormComponent, RecentlyViewedComponent } from '@components';
 import { BasePage } from './BasePage';
 
-/**
- * Home Page Object.
- * Состоит из компонентов: login form, header/cart, recently viewed.
- */
 export class HomePage extends BasePage {
   readonly header: HeaderComponent;
   readonly loginForm: LoginFormComponent;

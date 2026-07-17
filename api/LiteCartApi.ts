@@ -11,10 +11,6 @@ function baseUrl(): string {
   return (process.env.BASE_URL?.trim() || 'https://litecart.stqa.ru/en/').replace(/\/?$/, '/');
 }
 
-/**
- * LiteCart HTTP/AJAX API client.
- * Uses Playwright APIRequestContext (shares cookies with browser via page.request).
- */
 export class LiteCartApi {
   constructor(private readonly request: APIRequestContext) {}
 
@@ -56,7 +52,6 @@ export class LiteCartApi {
       failOnStatusCode: false,
     });
 
-    // Successful login redirects (302/303) to home/account
     expect([302, 303]).toContain(response.status());
   }
 
@@ -85,7 +80,6 @@ export class LiteCartApi {
     expect(response.ok() || [302, 303].includes(response.status())).toBeTruthy();
   }
 
-  /** Clears cart by removing items via checkout form POSTs. */
   async clearCart(): Promise<void> {
     for (let attempt = 0; attempt < 15; attempt++) {
       const cart = await this.getCart();
