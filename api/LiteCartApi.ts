@@ -52,7 +52,14 @@ export class LiteCartApi {
       failOnStatusCode: false,
     });
 
-    expect([302, 303]).toContain(response.status());
+    const status = response.status();
+    if (![302, 303].includes(status)) {
+      const body = await response.text();
+      const hint = wrongCredentialsPattern.test(body)
+        ? ' Server rejected credentials (wrong password, disabled, or missing account). Check TEST_USER_EMAIL / TEST_USER_PASSWORD in .env.'
+        : '';
+      throw new Error(`Expected login redirect 302/303, got ${status}.${hint}`);
+    }
   }
 
   async loginExpectFailure(email: string, password: string): Promise<void> {

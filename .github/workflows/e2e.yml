@@ -13,8 +13,8 @@ concurrency:
 env:
   CI: true
   BASE_URL: https://litecart.stqa.ru/en/
-  TEST_USER_EMAIL: test@test.com
-  TEST_USER_PASSWORD: '1234567890'
+  TEST_USER_EMAIL: e2e.playwright.20260721@example.com
+  TEST_USER_PASSWORD: 'TestPass123!'
   TEST_INVALID_PASSWORD: wrong-password-123
 
 jobs:
