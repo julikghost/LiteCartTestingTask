@@ -59,7 +59,7 @@ jobs:
           echo "JAVA_HOME=${JAVA_HOME}"
           echo "allure-results files: $(find allure-results -type f | wc -l)"
           ls -la allure-results | head -n 30
-          # --single-file: отчёт открывается из артефакта без локального сервера
+          # --single-file: отчёт открывается из артефакта / GitHub Pages без локального сервера
           npx allure generate ./allure-results --clean --single-file -o ./allure-report
           test -f allure-report/index.html
           ls -lah allure-report/index.html
@@ -72,6 +72,12 @@ jobs:
           path: allure-report/index.html
           retention-days: 14
           if-no-files-found: error
+
+      - name: Upload Allure for GitHub Pages
+        if: ${{ always() && github.event_name != 'pull_request' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
 
       - name: Upload Allure raw results
         if: always()
@@ -99,3 +105,27 @@ jobs:
           path: test-results/
           retention-days: 7
           if-no-files-found: ignore
+
+  deploy-allure:
+    name: Deploy Allure to GitHub Pages
+    needs: chromium
+    if: ${{ always() && needs.chromium.result != 'cancelled' && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Report URL in summary
+        run: |
+          {
+            echo "## Allure report"
+            echo ""
+            echo "Open in browser (no download): ${{ steps.deployment.outputs.page_url }}"
+          } >> "$GITHUB_STEP_SUMMARY"

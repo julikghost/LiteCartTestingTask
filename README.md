@@ -206,4 +206,10 @@ npm run allure:open             # открыть отчёт
 - `playwright-report-chromium` — HTML Playwright
 - при падении — `test-results` (trace/video)
 
+**Allure в браузере без скачивания:** после push в `main`/`master` (или `workflow_dispatch`) отчёт публикуется на **GitHub Pages**. Ссылка появляется в Job Summary и в environment `github-pages`.
+
+Один раз в репозитории: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+На PR Pages не деплоится (только артефакты) — чтобы не затирать отчёт с `main`.
+
 > Обычный Allure-отчёт (папка) при открытии `index.html` из zip выглядит пустым — нужен сервер (`allure open`). В CI поэтому генерируется `--single-file`.
