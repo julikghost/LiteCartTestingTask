@@ -88,7 +88,7 @@ export class LiteCartApi {
   }
 
   async clearCart(): Promise<void> {
-    for (let attempt = 0; attempt < 15; attempt++) {
+    for (let attempt = 0; attempt < 5; attempt++) {
       const cart = await this.getCart();
       if (cart.quantity === 0) {
         return;

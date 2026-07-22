@@ -1,8 +1,17 @@
 const { spawnSync } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
+const RESULTS = path.join(ROOT, 'allure-results');
 const testArgs = process.argv.slice(2);
+
+// Playwright/Allure appends into allure-results; wipe so old projects (mobile, etc.)
+// do not leak into the next report. Trend history is restored in generate-allure-report.js.
+if (fs.existsSync(RESULTS)) {
+  fs.rmSync(RESULTS, { recursive: true, force: true });
+}
+fs.mkdirSync(RESULTS, { recursive: true });
 
 const test = spawnSync('npx', ['playwright', 'test', ...testArgs], {
   stdio: 'inherit',
